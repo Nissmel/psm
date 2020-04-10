@@ -1,0 +1,43 @@
+<html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
+    <style> tr, td {border: 1px solid black;}</style>
+</head>
+
+<body>
+        <div id="read"></div>
+        <script>
+
+            var firebaseConfig = {
+                apiKey: "AIzaSyAi2rk4m3NOqN-nyAAlaBxDmIBgziozyJs",
+                authDomain: "mybook-a58c2.firebaseapp.com",
+                databaseURL: "https://mybook-a58c2.firebaseio.com",
+                projectId: "mybook-a58c2",
+                storageBucket: "mybook-a58c2.appspot.com",
+                messagingSenderId: "251822362617",
+                appId: "1:251822362617:web:b51e5631a6791435eb3728",
+                measurementId: "G-FJYD47V47R"
+            };
+            firebase.initializeApp(firebaseConfig);
+
+            var firestore = firebase.firestore()
+            const read = document.getElementById("read")
+            const collection = firestore.collection('films')
+            var fragment = document.createDocumentFragment()
+            var array = document.createElement("table")
+            collection.get().then(function (querySnapshot) {
+            querySnapshot.forEach(item => {
+                var row = document.createElement("tr")
+                var trValues = [item.data().id, item.data().domain_name, item.data().email, item.data().bundle, item.data().ip_address]
+                trValues.forEach(item => {
+                        var column = document.createElement("td")
+                        column.textContent = item
+                        row.appendChild(column)
+                })
+                array.appendChild(row)})})
+                fragment.appendChild(table)
+            document.body.appendChild(fragment)
+        </script>
+    </body>
+</html>

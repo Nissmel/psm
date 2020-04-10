@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <div id="book">
+        <button id="getBook">Get Book From Database</button>
+        <div id="loadedBook"></div>
+    </div>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAi2rk4m3NOqN-nyAAlaBxDmIBgziozyJs",
+            authDomain: "mybook-a58c2.firebaseapp.com",
+            databaseURL: "https://mybook-a58c2.firebaseio.com",
+            projectId: "mybook-a58c2",
+            storageBucket: "mybook-a58c2.appspot.com",
+            messagingSenderId: "251822362617",
+            appId: "1:251822362617:web:b51e5631a6791435eb3728",
+            measurementId: "G-FJYD47V47R"
+        }
+        firebase.initializeApp(firebaseConfig)
+
+        var firestore = firebase.firestore();
+        const data = firestore.doc("books/favourite")
+        const bookText = document.querySelector('#loadedBook')
+        const loadButton = document.querySelector('#getBook')
+
+        loadButton.addEventListener("click", function () {
+            data.get().then(function (doc) {
+                if (doc && doc.exists) {
+                    const myData = doc.data()
+                    console.log(myData)
+                    for (const [item, value] of Object.entries(myData)) {
+                        bookText.innerHTML += `<b>${item}</b>: ${value} <br>`
+                    }
+                }
+            }).catch(function (error) {
+                console.log("error: ", error)
+            })
+        })
+    </script>
+</body>
+</html>

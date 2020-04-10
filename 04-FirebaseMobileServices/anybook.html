@@ -1,0 +1,68 @@
+<html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
+</head>
+<body>
+
+    <div id="book">
+        title <input type="textfield" id="title"/><br>
+        author <input type="textfield" id="author"/><br>
+        year <input type="textfield" id="year"/><br>
+        genre <input type="textfield" id="genre"/><br>
+        isbn <input type="textfield" id="isbn"/><br>
+        <button id="saveBook">Save to database</button>
+        <button id="loadBook">Load form database</button>
+        <div id="loadedBook"></div>
+    </div>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAi2rk4m3NOqN-nyAAlaBxDmIBgziozyJs",
+            authDomain: "mybook-a58c2.firebaseapp.com",
+            databaseURL: "https://mybook-a58c2.firebaseio.com",
+            projectId: "mybook-a58c2",
+            storageBucket: "mybook-a58c2.appspot.com",
+            messagingSenderId: "251822362617",
+            appId: "1:251822362617:web:b51e5631a6791435eb3728",
+            measurementId: "G-FJYD47V47R"
+        }
+        firebase.initializeApp(firebaseConfig)
+        var firestore = firebase.firestore();
+
+        const data = firestore.doc("books/anyBook")
+        const bookText = document.querySelector('#loadedBook')
+        const Author = document.querySelector('#author')
+        const Title = document.querySelector('#title')
+        const Year = document.querySelector('#year')
+        const Genre = document.querySelector('#genre')
+        const ISBN = document.querySelector('#ISBN')
+
+        const saveToDataBase = document.querySelector('#saveBook')
+        const getFromDataBase = document.querySelector('#loadBook')
+
+        saveToDataBase.addEventListener("click", function () {
+            const bookInfo = [Author.value, Title.value, Year.value, Genre.value, ISBN.value]
+            data.set({
+                author: bookInfo[0],
+                title: bookInfo[1],
+                year: bookInfo[2],
+                genre: bookInfo[3],
+                ISBN: bookInfo[4]
+            })
+        })
+
+        getFromDataBase.addEventListener("click", function () {
+            data.get().then(function (doc) {
+                if (doc && doc.exists) {
+                    const myData = doc.data()
+                    console.log(myData)
+                    for (const [item, value] of Object.entries(myData)) {bookText.innerHTML += `<b>${item}</b>: ${value} <br>`}
+                }
+            }).catch(function (error) {
+                console.log(error)
+            })
+        })
+    </script>
+</body>
+</html>

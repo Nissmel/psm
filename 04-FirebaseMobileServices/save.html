@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
+</head>
+
+<body>
+    <script>
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyAi2rk4m3NOqN-nyAAlaBxDmIBgziozyJs",
+            authDomain: "mybook-a58c2.firebaseapp.com",
+            databaseURL: "https://mybook-a58c2.firebaseio.com",
+            projectId: "mybook-a58c2",
+            storageBucket: "mybook-a58c2.appspot.com",
+            messagingSenderId: "251822362617",
+            appId: "1:251822362617:web:b51e5631a6791435eb3728",
+            measurementId: "G-FJYD47V47R"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        var firestore = firebase.firestore()     
+
+        var json = "MOCK_DATA.json"
+        fetch(json).then(response => response.json()).then(json => {
+                for (let item of json) {
+                    const data = firestore.doc('pc/ip' + item.id)
+                                    data.set({
+                                        id: item.id,
+                                        domain_name: item.domain_name,
+                                        email: item.email,
+                                        bundle: item.bundle,
+                                        ip_address: item.ip_address
+                                    })
+                }
+            })
+
+    </script>
+</body>
+
+</html>
